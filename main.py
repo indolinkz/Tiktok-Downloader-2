@@ -13,6 +13,40 @@ def getVideoData(video_id):
     return request_data
 
 
+def downloadSingleVideo():
+    with_watermark = None
+    print("Download the video\n[1] With Watermark\n[2] Without Watermark")
+    while with_watermark != 1 and with_watermark != 2:
+        with_watermark = int(input("[>] "))
+
+    print()
+    video_url = input("[>] Video URL : ")
+
+    video_id = video_url.split("/")[5]
+    if "?" in video_url:
+        video_id = video_id[:video_id.find('?')]
+
+    if os.path.exists(f"downloads/videos/{video_id}-wm.mp4") and with_watermark == 1:
+        print("[!] Video Already Downloaded!")
+        return
+    if os.path.exists(f"downloads/videos/{video_id}-no-wm.mp4") and with_watermark == 2:
+        print("[!] Video Already Downloaded!")
+        return
+
+    data = getVideoData(video_id)
+
+    if with_watermark == 1:
+        download_url = data["aweme_details"][0]["video"]["download_addr"]["url_list"][0]
+    else:
+        download_url = data["aweme_details"][0]["video"]["play_addr"]["url_list"][0]
+
+    with open(f'./downloads/videos/{video_id}-{"wm" if with_watermark == 1 else "no-wm"}.mp4', 'wb') as out_file:
+        video_bytes = requests.get(f'{download_url}.mp4', stream=True)
+        out_file.write(video_bytes.content)
+
+    print("[!] Video Downloaded Successfully!")
+
+
 if __name__ == "__main__":
     if not os.path.exists("downloads"):
         os.makedirs("downloads")
