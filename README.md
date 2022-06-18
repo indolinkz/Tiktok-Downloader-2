@@ -1,5 +1,5 @@
-<h1 align="center">TikTok Bot</h1>
-<p align="center">A bot that generates followers, likes, views, shares and comment likes!<br>(from zefoy / automatic process)<p>
+<h1 align="center">TikTok Download</h1>
+<p align="center">A full Tiktok downloader<p>
 
 <p align="center">
 <a href="https://github.com/simonfarah/Tiktok-Downloader">
