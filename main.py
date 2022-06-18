@@ -97,6 +97,10 @@ def downloadAllVidsFromUser():
     username = request_data["aweme_list"][0]["author"]["unique_id"]
     if not os.path.exists(f"./downloads/users/{username}"):
         os.makedirs(f"./downloads/users/{username}")
+    if not os.path.exists(f"./downloads/users/{username}/wm"):
+        os.makedirs(f"./downloads/users/{username}/wm")
+    if not os.path.exists(f"./downloads/users/{username}/no-wm"):
+        os.makedirs(f"./downloads/users/{username}/no-wm")
 
     videos = request_data["aweme_list"]
 
@@ -111,12 +115,12 @@ def downloadAllVidsFromUser():
             download_url = video["video"]["download_addr"]["url_list"][0]
             uri = video["video"]["download_addr"]["uri"]
 
-            if os.path.exists(f"./downloads/users/{username}/{uri}-wm.mp4"):
+            if os.path.exists(f"./downloads/users/{username}/wm/{uri}.mp4"):
                 print(
                     f"[!] Video Number {count} already Exists! Skipping It...")
                 continue
 
-            with open(f'./downloads/users/{username}/{uri}-wm.mp4', 'wb') as out_file:
+            with open(f'./downloads/users/{username}/wm/{uri}.mp4', 'wb') as out_file:
                 video_bytes = requests.get(f'{download_url}.mp4', stream=True)
                 out_file.write(video_bytes.content)
                 print(f"[!] Video Number {count} downloaded")
@@ -127,12 +131,12 @@ def downloadAllVidsFromUser():
             download_url = video["video"]["play_addr"]["url_list"][0]
             uri = video["video"]["play_addr"]["uri"]
 
-            if os.path.exists(f"./downloads/users/{username}/{uri}-no-wm.mp4"):
+            if os.path.exists(f"./downloads/users/{username}/no-wm/{uri}.mp4"):
                 print(
                     f"[!] Video Number {count} already Exists! Skipping It...")
                 continue
 
-            with open(f'./downloads/users/{username}/{uri}-no-wm.mp4', 'wb') as out_file:
+            with open(f'./downloads/users/{username}/no-wm/{uri}.mp4', 'wb') as out_file:
                 video_bytes = requests.get(f'{download_url}.mp4', stream=True)
                 out_file.write(video_bytes.content)
                 print(f"[!] Video Number {count} downloaded")
