@@ -152,3 +152,16 @@ if __name__ == "__main__":
         os.makedirs("./downloads/videos")
     if not os.path.exists("./downloads/thumbnails"):
         os.makedirs("./downloads/thumbnails")
+
+    print(
+        "Choose an option :\n[1] Download Single Video\n[2] Download Video Thumbnail\n[3] Download All Videos From User")
+    choice = None
+    while choice != 1 and choice != 2 and choice != 3:
+        choice = int(input("[>] "))
+
+    if choice == 1:
+        downloadSingleVideo()
+    elif choice == 2:
+        downloadVideoThumbnail()
+    else:
+        downloadAllVidsFromUser()
