@@ -26,10 +26,10 @@ def downloadSingleVideo():
     if "?" in video_url:
         video_id = video_id[:video_id.find('?')]
 
-    if os.path.exists(f"downloads/videos/{video_id}-wm.mp4") and with_watermark == 1:
+    if os.path.exists(f"./downloads/videos/{video_id}-wm.mp4") and with_watermark == 1:
         print("[!] Video Already Downloaded!")
         return
-    if os.path.exists(f"downloads/videos/{video_id}-no-wm.mp4") and with_watermark == 2:
+    if os.path.exists(f"./downloads/videos/{video_id}-no-wm.mp4") and with_watermark == 2:
         print("[!] Video Already Downloaded!")
         return
 
@@ -47,10 +47,32 @@ def downloadSingleVideo():
     print("[!] Video Downloaded Successfully!")
 
 
+def downloadVideoThumbnail():
+    video_url = input("[>] Video URL : ")
+
+    video_id = video_url.split("/")[5]
+    if "?" in video_url:
+        video_id = video_id[:video_id.find('?')]
+
+    if os.path.exists(f"./downloads/thumbnails/{video_id}-thumbnail.jpeg"):
+        print("[!] Thumbnail Already Downloaded!")
+        return
+
+    data = getVideoData(video_id)
+
+    download_url = data["aweme_details"][0]["video"]["origin_cover"]["url_list"][0]
+
+    with open(f'./downloads/thumbnails/{video_id}-thumbnail.jpeg', 'wb') as out_file:
+        image_bytes = requests.get(f'{download_url}.mp4', stream=True)
+        out_file.write(image_bytes.content)
+
+    print("[!] Thumbnail Downloaded Successfully!")
+
+
 if __name__ == "__main__":
-    if not os.path.exists("downloads"):
-        os.makedirs("downloads")
-    if not os.path.exists("downloads/videos"):
-        os.makedirs("downloads/videos")
-    if not os.path.exists("downloads/thumbnails"):
-        os.makedirs("downloads/thumbnails")
+    if not os.path.exists("./downloads"):
+        os.makedirs("./downloads")
+    if not os.path.exists("./downloads/videos"):
+        os.makedirs("./downloads/videos")
+    if not os.path.exists("./downloads/thumbnails"):
+        os.makedirs("./downloads/thumbnails")
